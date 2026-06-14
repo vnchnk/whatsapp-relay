@@ -1,5 +1,6 @@
 import express, { type Request } from "express";
 import crypto from "crypto";
+import { spawn } from "child_process";
 import { state, saveConfig, type Config } from "./state.js";
 import { refreshGroups, relink } from "./socket.js";
 import { loginPage, dashboardPage } from "./views.js";
@@ -87,5 +88,24 @@ export function startServer(): void {
     }
   });
 
-  app.listen(PORT, () => console.log(`Panel listening on :${PORT}`));
+  app.listen(PORT, () => {
+    const url = `http://localhost:${PORT}`;
+    console.log(`\n  WhatsApp Relay panel → ${url}\n  Login: ${USER} / ${PASS}\n`);
+    if (process.env.OPEN_BROWSER !== "0") openBrowser(url);
+  });
+}
+
+/** Opens the default browser at `url` (best-effort, cross-platform). */
+function openBrowser(url: string): void {
+  const [cmd, args] =
+    process.platform === "win32"
+      ? ["cmd", ["/c", "start", "", url]]
+      : process.platform === "darwin"
+        ? ["open", [url]]
+        : ["xdg-open", [url]];
+  try {
+    spawn(cmd as string, args as string[], { stdio: "ignore", detached: true }).unref();
+  } catch {
+    /* no browser available — user opens the URL manually */
+  }
 }
