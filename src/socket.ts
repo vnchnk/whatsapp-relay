@@ -9,10 +9,9 @@ import QRCode from "qrcode";
 import pino from "pino";
 import fs from "fs";
 import path from "path";
-import { state } from "./state.js";
+import { state, AUTH_DIR } from "./state.js";
 
 const logger = pino({ level: "warn" });
-const AUTH_DIR = process.env.AUTH_DIR ?? "auth";
 
 // Remembered so relink() can spin up a fresh connection with the same handler.
 let onReadyCb: ((sock: WASocket) => void) | null = null;

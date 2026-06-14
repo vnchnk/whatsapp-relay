@@ -25,18 +25,19 @@ Config is stored in `auth/config.json` and applied live — no restart needed.
 ## Easiest: download and double-click (no install)
 
 1. Go to the [**Releases**](https://github.com/vnchnk/whatsapp-relay/releases) page.
-2. Download the file for your OS:
-   - Windows → `WhatsAppRelay.exe`
-   - macOS → `WhatsAppRelay-macos`
-   - Linux → `WhatsAppRelay-linux`
-3. Double-click it. A browser opens at <http://localhost:8080>.
+2. Download and run the build for your OS:
+   - **Windows** → `WhatsAppRelay.exe` → double-click. If SmartScreen warns,
+     click *More info → Run anyway* (the app is unsigned).
+   - **macOS** → `WhatsAppRelay-macos.zip` → unzip, then double-click
+     **`Start WhatsApp Relay.command`**. If macOS blocks it, right-click it →
+     *Open* → *Open*.
+   - **Linux** → `WhatsAppRelay-linux` → `chmod +x` then run it.
+3. A browser opens at <http://localhost:8080>.
 4. Log in (`admin` / `admin`), scan the QR, pick your groups.
 
-The bot keeps running while the window is open. It creates an `auth/` folder
-next to itself to stay paired — keep that folder, and don't share it.
-
-> macOS/Linux: if double-click is blocked, run `chmod +x WhatsAppRelay-macos`
-> first. On macOS you may need to allow it in System Settings → Privacy & Security.
+The bot keeps running while the window is open. It stores its session in a
+`WhatsAppRelay` folder in your home directory to stay paired — keep it, don't
+share it (it's a live WhatsApp login).
 
 ## Run with Docker
 

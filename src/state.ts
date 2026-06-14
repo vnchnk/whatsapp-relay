@@ -1,8 +1,22 @@
 import fs from "fs";
 import path from "path";
+import os from "os";
 import type { WASocket } from "@whiskeysockets/baileys";
 
-const AUTH_DIR = process.env.AUTH_DIR ?? "auth";
+/**
+ * Where the WhatsApp session + config live.
+ * - Dev / Docker (run via node or bun): "auth" next to the project (volume-friendly).
+ * - Packaged binary (.exe / .app / Unix binary): ~/WhatsAppRelay/auth, since a
+ *   double-clicked app has no reliable working directory (an .app runs with cwd "/").
+ */
+function resolveAuthDir(): string {
+  if (process.env.AUTH_DIR) return process.env.AUTH_DIR;
+  const exe = path.basename(process.execPath).toLowerCase();
+  const packaged = !exe.startsWith("node") && !exe.startsWith("bun");
+  return packaged ? path.join(os.homedir(), "WhatsAppRelay", "auth") : "auth";
+}
+
+export const AUTH_DIR = resolveAuthDir();
 const CONFIG_PATH = path.join(AUTH_DIR, "config.json");
 
 export type Config = {
