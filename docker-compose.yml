@@ -1,0 +1,10 @@
+services:
+  whatsapp-relay:
+    build: .
+    container_name: whatsapp-relay
+    env_file: .env
+    ports:
+      - "8080:8080"        # web control panel → http://localhost:8080
+    volumes:
+      - ./auth:/app/auth   # WhatsApp session + config.json persist here
+    restart: unless-stopped
